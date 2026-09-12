@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Aurora Bullish Flag Scanner — Release 3.1</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+    <div>
+        <div class="brand">AURORA</div>
+        <div class="subtitle">
+            Bullish Flag Pattern Scanner
+        </div>
+    </div>
+
+    <div class="release">
+        RELEASE 3.1
+    </div>
+
+</header>
+
+
+<main class="container">
+
+    <section class="hero">
+
+        <div>
+            <h1>NIFTY 50 Bullish Flag Scanner</h1>
+
+            <p>
+                Explainable pattern-quality analysis using the
+                frozen 80-point Aurora scoring architecture.
+            </p>
+        </div>
+
+        <div class="universe-badge">
+            NIFTY 50
+        </div>
+
+    </section>
+
+
+    <!-- SUMMARY CARDS -->
+
+    <section class="summary-grid">
+
+        <div class="summary-card">
+            <span class="label">Production Structures</span>
+            <strong id="totalStructures">—</strong>
+        </div>
+
+        <div class="summary-card">
+            <span class="label">Breakouts</span>
+            <strong id="breakouts">—</strong>
+        </div>
+
+        <div class="summary-card">
+            <span class="label">Active Flags</span>
+            <strong id="activeFlags">—</strong>
+        </div>
+
+        <div class="summary-card">
+            <span class="label">Highest Aurora Score</span>
+            <strong id="highestScore">—</strong>
+        </div>
+
+    </section>
+
+
+    <!-- SCORE ARCHITECTURE -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+            <div>
+                <h2>Aurora 80-Point Architecture</h2>
+                <p>Frozen Release 3.1 scoring model</p>
+            </div>
+        </div>
+
+        <div class="score-grid">
+
+            <div>
+                <span>Flag Structure</span>
+                <strong>25</strong>
+            </div>
+
+            <div>
+                <span>EMA Health</span>
+                <strong>25</strong>
+            </div>
+
+            <div>
+                <span>Relative Strength</span>
+                <strong>15</strong>
+            </div>
+
+            <div>
+                <span>Volume Profile</span>
+                <strong>5</strong>
+            </div>
+
+            <div>
+                <span>Location</span>
+                <strong>5</strong>
+            </div>
+
+            <div>
+                <span>Trend Alignment</span>
+                <strong>5</strong>
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- CURRENT STRUCTURES -->
+
+    <section class="panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h2>Current Structures</h2>
+                <p>
+                    Active flags and detected breakouts
+                </p>
+            </div>
+
+            <div class="controls">
+
+                <select id="statusFilter">
+                    <option value="ALL">All</option>
+                    <option value="BREAKOUT">Breakouts</option>
+                    <option value="ACTIVE FLAG">Active Flags</option>
+                </select>
+
+                <select id="scoreFilter">
+                    <option value="0">All Scores</option>
+                    <option value="60">60+ / 80</option>
+                    <option value="45">45+ / 80</option>
+                    <option value="30">30+ / 80</option>
+                    <option value="15">15+ / 80</option>
+                </select>
+
+            </div>
+
+        </div>
+
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <thead>
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Aurora</th>
+                        <th>Structure</th>
+                        <th>EMA</th>
+                        <th>RS</th>
+                        <th>VP</th>
+                        <th>Location</th>
+                        <th>Trend</th>
+                        <th>Pole End</th>
+                    </tr>
+
+                </thead>
+
+                <tbody id="resultsBody"></tbody>
+
+            </table>
+
+        </div>
+
+        <div id="emptyState" class="empty-state">
+            No structures match the selected filters.
+        </div>
+
+    </section>
+
+
+    <!-- INFORMATION -->
+
+    <section class="panel information">
+
+        <h2>About Aurora</h2>
+
+        <p>
+            Aurora is an explainable Bullish Flag pattern-analysis
+            framework. The Aurora score ranks pattern quality using
+            six validated components. It is designed as an analytical
+            and research tool, not as an automatic buy or sell signal.
+        </p>
+
+        <div class="validation-note">
+
+            <strong>Historical validation</strong>
+
+            <span>
+                262 complete historical observations ·
+                ROC-AUC 0.9213 ·
+                Spearman ρ 0.7034
+            </span>
+
+        </div>
+
+    </section>
+
+
+    <footer>
+
+        <span>
+            Aurora Bullish Flag Scanner — Release 3.1
+        </span>
+
+        <span id="generatedAt">
+            —
+        </span>
+
+    </footer>
+
+</main>
+
+
+<script src="app.js"></script>
+
+</body>
+</html>

@@ -1,26 +1,12 @@
 # ============================================================
-# AURORA RELEASE 3.1
-# PRODUCTION BULLISH FLAG ENGINE
-#
-# Standalone production module for GitHub Actions
-#
-# IMPORTANT:
-# - Production 3.1 logic preserved
-# - No 25% pole formation logic
-# - No new indicators
-# - No sector score
-# - No pole-strength score
-# - Frozen flag-structure scoring
+# AURORA 3.1 — VALIDATED PRODUCTION ENGINE
+# Extracted from Aurora_Release_3_1_Production.ipynb
+# Production detection/scoring logic is preserved exactly.
 # ============================================================
 
 import yfinance as yf
 import pandas as pd
 import numpy as np
-
-
-# ============================================================
-# NIFTY 50 PRODUCTION UNIVERSE
-# ============================================================
 
 nse_symbols = [
     "HDFCBANK",
@@ -71,428 +57,20 @@ nse_symbols = [
     "TITAN",
     "TRENT",
     "ULTRACEMCO",
-    "WIPRO",
+    "WIPRO"
 ]
-
-# ============================================================
-# DATA DOWNLOAD
-# ============================================================
-
-def get_stock_data(symbol, period="2y", interval="1d"):
-
-    ticker = symbol + ".NS"
-
-    try:
-
-        df = yf.download(
-            ticker,
-            period=period,
-            interval=interval,
-            auto_adjust=False,
-            progress=False,
-            threads=False
-        )
-
-        if df is None or df.empty:
-            return None
-
-        # Handle yfinance MultiIndex columns
-        if isinstance(df.columns, pd.MultiIndex):
-            df.columns = df.columns.get_level_values(0)
-
-        required_columns = [
-            "Open",
-            "High",
-            "Low",
-            "Close",
-            "Volume"
-        ]
-
-        if not all(
-            col in df.columns
-            for col in required_columns
-        ):
-            return None
-
-        df = df[required_columns].copy()
-
-        df.dropna(inplace=True)
-
-        return df
-
-    except Exception:
-        return None
-
-
-# ============================================================
-# BASIC TECHNICAL FEATURES
-# ============================================================
-
-def add_basic_features(df):
-
-    df = df.copy()
-
-    # Moving averages
-    df["EMA20"] = (
-        df["Close"]
-        .ewm(
-            span=20,
-            adjust=False
-        )
-        .mean()
-    )
-
-    df["EMA50"] = (
-        df["Close"]
-        .ewm(
-            span=50,
-            adjust=False
-        )
-        .mean()
-    )
-
-    df["EMA200"] = (
-        df["Close"]
-        .ewm(
-            span=200,
-            adjust=False
-        )
-        .mean()
-    )
-
-    # Daily percentage change
-    df["Daily_Return_%"] = (
-        df["Close"].pct_change() * 100
-    )
-
-    # Volume average
-    df["Volume_SMA20"] = (
-        df["Volume"]
-        .rolling(20)
-        .mean()
-    )
-
-    # Relative volume
-    df["Relative_Volume"] = (
-        df["Volume"] /
-        df["Volume_SMA20"]
-    )
-
-    return df
-
-
-# ============================================================
-# STRUCTURAL PIVOT ENGINE
-# ============================================================
-
-def detect_structural_pivots(
-    df,
-    window=10,
-    min_move_pct=3.0
-):
-
-    df = df.copy()
-
-    # --------------------------------------------------------
-    # Local structural highs and lows
-    # --------------------------------------------------------
-
-    rolling_high = (
-        df["High"]
-        .rolling(
-            window=window * 2 + 1,
-            center=True
-        )
-        .max()
-    )
-
-    rolling_low = (
-        df["Low"]
-        .rolling(
-            window=window * 2 + 1,
-            center=True
-        )
-        .min()
-    )
-
-    local_highs = (
-        df["High"] == rolling_high
-    )
-
-    local_lows = (
-        df["Low"] == rolling_low
-    )
-
-    # --------------------------------------------------------
-    # Candidate pivots
-    # --------------------------------------------------------
-
-    candidates = []
-
-    for idx in df.index:
-
-        if local_highs.loc[idx]:
-
-            candidates.append({
-                "Date": idx,
-                "Type": "HIGH",
-                "Price": float(
-                    df.loc[idx, "High"]
-                )
-            })
-
-        elif local_lows.loc[idx]:
-
-            candidates.append({
-                "Date": idx,
-                "Type": "LOW",
-                "Price": float(
-                    df.loc[idx, "Low"]
-                )
-            })
-
-    # --------------------------------------------------------
-    # Remove consecutive same-type pivots
-    # and enforce minimum structural movement
-    # --------------------------------------------------------
-
-    pivots = []
-
-    for candidate in candidates:
-
-        if not pivots:
-
-            pivots.append(candidate)
-            continue
-
-        previous = pivots[-1]
-
-        # Same pivot type:
-        # retain the more extreme pivot
-
-        if candidate["Type"] == previous["Type"]:
-
-            if candidate["Type"] == "HIGH":
-
-                if (
-                    candidate["Price"]
-                    > previous["Price"]
-                ):
-                    pivots[-1] = candidate
-
-            else:
-
-                if (
-                    candidate["Price"]
-                    < previous["Price"]
-                ):
-                    pivots[-1] = candidate
-
-            continue
-
-        # Opposite pivot
-        move_pct = (
-            abs(
-                candidate["Price"]
-                - previous["Price"]
-            )
-            / previous["Price"]
-            * 100
-        )
-
-        if move_pct >= min_move_pct:
-
-            pivots.append(candidate)
-
-    return pd.DataFrame(pivots)
-
-
-# ============================================================
-# STRUCTURAL BULLISH POLE ENGINE
-# ============================================================
-
-def detect_structural_bullish_poles(
-    df,
-    min_advance_pct=8.0,
-    min_pole_sessions=3,
-    max_pole_sessions=40,
-    min_rvol=1.0
-):
-
-    pivots = detect_structural_pivots(df)
-
-    if pivots is None or pivots.empty:
-        return pd.DataFrame()
-
-    poles = []
-
-    for i in range(len(pivots) - 1):
-
-        start = pivots.iloc[i]
-        end = pivots.iloc[i + 1]
-
-        if start["Type"] != "LOW":
-            continue
-
-        if end["Type"] != "HIGH":
-            continue
-
-        start_date = pd.to_datetime(
-            start["Date"]
-        )
-
-        end_date = pd.to_datetime(
-            end["Date"]
-        )
-
-        start_price = float(
-            start["Price"]
-        )
-
-        high_price = float(
-            end["Price"]
-        )
-
-        duration = len(
-            df[
-                (df.index >= start_date)
-                &
-                (df.index <= end_date)
-            ]
-        )
-
-        if duration < min_pole_sessions:
-            continue
-
-        if duration > max_pole_sessions:
-            continue
-
-        advance_pct = (
-            (high_price / start_price) - 1
-        ) * 100
-
-        if advance_pct < min_advance_pct:
-            continue
-
-        pole_data = df[
-            (df.index >= start_date)
-            &
-            (df.index <= end_date)
-        ].copy()
-
-        if pole_data.empty:
-            continue
-
-        avg_volume = (
-            pole_data["Volume"].mean()
-        )
-
-        volume_sma20 = (
-            pole_data["Volume"]
-            .rolling(20)
-            .mean()
-            .iloc[-1]
-        )
-
-        if (
-            pd.isna(volume_sma20)
-            or volume_sma20 <= 0
-        ):
-            rvol = np.nan
-        else:
-            rvol = (
-                avg_volume /
-                volume_sma20
-            )
-
-        if (
-            not pd.isna(rvol)
-            and rvol < min_rvol
-        ):
-            continue
-
-        first_half = (
-            pole_data["Volume"]
-            .iloc[
-                :max(
-                    1,
-                    len(pole_data) // 2
-                )
-            ]
-            .mean()
-        )
-
-        second_half = (
-            pole_data["Volume"]
-            .iloc[
-                max(
-                    1,
-                    len(pole_data) // 2
-                ):
-            ]
-            .mean()
-        )
-
-        if first_half > 0:
-
-            volume_change_pct = (
-                (second_half / first_half) - 1
-            ) * 100
-
-        else:
-
-            volume_change_pct = np.nan
-
-        # ----------------------------------------------------
-        # IMPORTANT COMPATIBILITY NORMALIZATION
-        #
-        # Original structural engine uses title-case names.
-        # Production flag engine uses lowercase names.
-        #
-        # This changes only the column names, not the
-        # analytical calculations.
-        # ----------------------------------------------------
-
-        poles.append({
-
-            "pole_start_date":
-                start_date,
-
-            "pole_start_price":
-                start_price,
-
-            "pole_end_date":
-                end_date,
-
-            "pole_high_price":
-                high_price,
-
-            "pole_advance_pct":
-                advance_pct,
-
-            "pole_duration_sessions":
-                duration,
-
-            "pole_rvol":
-                rvol,
-
-            "pole_volume_change_pct":
-                volume_change_pct
-        })
-
-    return pd.DataFrame(poles)
-
-
-# ============================================================
-# FROZEN AURORA 3.1 SCORING CONFIGURATION
-# ============================================================
 
 AURORA_FLAG_CONFIG = {
 
+    # --------------------------------------------------------
+    # TOTAL SCORE
+    # --------------------------------------------------------
     "maximum_score": 80,
 
+    # --------------------------------------------------------
+    # 1. FLAG STRUCTURE - 25 POINTS
+    # --------------------------------------------------------
     "flag_structure": {
-
         "maximum_score": 25,
 
         "retracement": {
@@ -518,8 +96,10 @@ AURORA_FLAG_CONFIG = {
         }
     },
 
+    # --------------------------------------------------------
+    # 2. EMA HEALTH - 25 POINTS
+    # --------------------------------------------------------
     "ema_health": {
-
         "maximum_score": 25,
 
         "ema20": {
@@ -547,10 +127,11 @@ AURORA_FLAG_CONFIG = {
         }
     },
 
+    # --------------------------------------------------------
+    # 3. RELATIVE STRENGTH VS NIFTY - 15 POINTS
+    # --------------------------------------------------------
     "relative_strength": {
-
         "maximum_score": 15,
-
         "bands": [
             (5, 15),
             (2, 14),
@@ -562,10 +143,11 @@ AURORA_FLAG_CONFIG = {
         ]
     },
 
+    # --------------------------------------------------------
+    # 4. VOLUME PROFILE - 5 POINTS
+    # --------------------------------------------------------
     "volume_profile": {
-
         "maximum_score": 5,
-
         "bands": {
             "ABOVE VAH": 5,
             "INSIDE VALUE AREA": 2,
@@ -573,22 +155,29 @@ AURORA_FLAG_CONFIG = {
         }
     },
 
+    # --------------------------------------------------------
+    # 5. LOCATION - 5 POINTS
+    # --------------------------------------------------------
     "location": {
-
         "maximum_score": 5,
         "distance_from_52w_high_pct": 2.0,
         "score_near": 5,
         "score_otherwise": 0
     },
 
+    # --------------------------------------------------------
+    # 6. TREND ALIGNMENT - 5 POINTS
+    # --------------------------------------------------------
     "trend_alignment": {
-
         "maximum_score": 5,
         "condition": "PRICE >= EMA200",
         "score_aligned": 5,
         "score_weak": 0
     },
 
+    # --------------------------------------------------------
+    # DIAGNOSTIC ONLY - ZERO POINTS
+    # --------------------------------------------------------
     "diagnostic_only": [
         "Pole Strength",
         "Volume Behaviour",
@@ -602,23 +191,523 @@ AURORA_FLAG_CONFIG = {
     ]
 }
 
-
-# ============================================================
-# PRODUCTION FLAG PARAMETERS
-# ============================================================
-
 MAX_FLAG_SESSIONS = 45
 MIN_FLAG_SESSIONS = 3
 
+def get_stock_data(symbol, period="2y", interval="1d"):
 
-# ============================================================
-# PRODUCTION BULLISH FLAG DETECTION
-# ============================================================
+    ticker = yf.Ticker(symbol + ".NS")
 
-def detect_production_bullish_flags(
+    df = ticker.history(
+        period=period,
+        interval=interval,
+        auto_adjust=False
+    )
+
+    if df is None or df.empty:
+        return None
+
+    df = df.copy()
+
+    try:
+        df.index = df.index.tz_localize(None)
+    except:
+        pass
+
+    return df
+
+def add_basic_features(df):
+
+    df = df.copy()
+
+    # --------------------------------------------------------
+    # Moving averages
+    # --------------------------------------------------------
+
+    df["EMA20"] = df["Close"].ewm(
+        span=20,
+        adjust=False
+    ).mean()
+
+    df["EMA50"] = df["Close"].ewm(
+        span=50,
+        adjust=False
+    ).mean()
+
+    df["EMA200"] = df["Close"].ewm(
+        span=200,
+        adjust=False
+    ).mean()
+
+    # --------------------------------------------------------
+    # Daily return
+    # --------------------------------------------------------
+
+    df["Daily_Return_Pct"] = (
+        df["Close"].pct_change() * 100
+    )
+
+    # --------------------------------------------------------
+    # 20-day average volume
+    # --------------------------------------------------------
+
+    df["Volume_SMA20"] = (
+        df["Volume"]
+        .rolling(20)
+        .mean()
+    )
+
+    # --------------------------------------------------------
+    # Relative volume
+    # --------------------------------------------------------
+
+    df["Relative_Volume"] = (
+        df["Volume"] / df["Volume_SMA20"]
+    )
+
+    return df
+
+def detect_structural_pivots(
     df,
-    poles
+    window=10,
+    min_move_pct=3.0
 ):
+
+    df = df.copy()
+
+    # --------------------------------------------------------
+    # Local High / Local Low
+    # --------------------------------------------------------
+
+    rolling_high = (
+        df["High"]
+        .rolling(
+            window=window * 2 + 1,
+            center=True
+        )
+        .max()
+    )
+
+    rolling_low = (
+        df["Low"]
+        .rolling(
+            window=window * 2 + 1,
+            center=True
+        )
+        .min()
+    )
+
+    df["Potential_High"] = (
+        df["High"] == rolling_high
+    )
+
+    df["Potential_Low"] = (
+        df["Low"] == rolling_low
+    )
+
+    # --------------------------------------------------------
+    # Collect potential pivots
+    # --------------------------------------------------------
+
+    candidates = []
+
+    for i in range(len(df)):
+
+        if df["Potential_High"].iloc[i]:
+
+            candidates.append({
+                "Date": df.index[i],
+                "Price": float(df["High"].iloc[i]),
+                "Type": "HIGH",
+                "Index": i
+            })
+
+        elif df["Potential_Low"].iloc[i]:
+
+            candidates.append({
+                "Date": df.index[i],
+                "Price": float(df["Low"].iloc[i]),
+                "Type": "LOW",
+                "Index": i
+            })
+
+    # --------------------------------------------------------
+    # Filter pivots
+    # --------------------------------------------------------
+
+    pivots = []
+
+    for candidate in candidates:
+
+        if not pivots:
+
+            pivots.append(candidate)
+            continue
+
+        previous = pivots[-1]
+
+        # ----------------------------------------------------
+        # Same type:
+        # retain the more extreme pivot
+        # ----------------------------------------------------
+
+        if candidate["Type"] == previous["Type"]:
+
+            if candidate["Type"] == "HIGH":
+
+                if candidate["Price"] > previous["Price"]:
+                    pivots[-1] = candidate
+
+            else:
+
+                if candidate["Price"] < previous["Price"]:
+                    pivots[-1] = candidate
+
+            continue
+
+        # ----------------------------------------------------
+        # Opposite type:
+        # check minimum price movement
+        # ----------------------------------------------------
+
+        move_pct = abs(
+            candidate["Price"] - previous["Price"]
+        ) / previous["Price"] * 100
+
+        if move_pct >= min_move_pct:
+
+            pivots.append(candidate)
+
+    # --------------------------------------------------------
+    # Create result
+    # --------------------------------------------------------
+
+    result = pd.DataFrame(pivots)
+
+    if result.empty:
+
+        return pd.DataFrame(
+            columns=[
+                "Date",
+                "Price",
+                "Type",
+                "Index"
+            ]
+        )
+
+    result = result[
+        [
+            "Date",
+            "Price",
+            "Type",
+            "Index"
+        ]
+    ].reset_index(drop=True)
+
+    return result
+
+def detect_structural_bullish_poles(
+    df,
+    min_advance_pct=8.0,
+    min_sessions=3,
+    max_sessions=40,
+    min_rvol=1.0
+):
+    """
+    Identify Bullish Flag pole candidates using
+    structural LOW -> HIGH pivots.
+    """
+
+    if df is None or df.empty:
+        return pd.DataFrame()
+
+    data = df.copy()
+
+    # --------------------------------------------------------
+    # Ensure Relative Volume exists
+    # --------------------------------------------------------
+
+    if "Relative_Volume" not in data.columns:
+
+        data["Volume_SMA20"] = (
+            data["Volume"]
+            .rolling(20)
+            .mean()
+        )
+
+        data["Relative_Volume"] = (
+            data["Volume"] /
+            data["Volume_SMA20"]
+        )
+
+    # --------------------------------------------------------
+    # Get structural pivots from existing Aurora engine
+    # --------------------------------------------------------
+
+    pivots = detect_structural_pivots(data)
+
+    if pivots is None or len(pivots) == 0:
+        return pd.DataFrame()
+
+    pivots = pd.DataFrame(pivots).copy()
+
+    # --------------------------------------------------------
+    # Standardise pivot column names
+    # --------------------------------------------------------
+
+    pivots.columns = [
+        str(col).strip()
+        for col in pivots.columns
+    ]
+
+    # Locate required columns
+    date_col = next(
+        (
+            c for c in pivots.columns
+            if str(c).lower() == "date"
+        ),
+        None
+    )
+
+    type_col = next(
+        (
+            c for c in pivots.columns
+            if str(c).lower() == "type"
+        ),
+        None
+    )
+
+    price_col = next(
+        (
+            c for c in pivots.columns
+            if str(c).lower() == "price"
+        ),
+        None
+    )
+
+    if not all(
+        [date_col, type_col, price_col]
+    ):
+        raise ValueError(
+            "Structural pivot output does not contain "
+            "Date, Type and Price columns."
+        )
+
+    # --------------------------------------------------------
+    # Convert dates and sort chronologically
+    # --------------------------------------------------------
+
+    pivots[date_col] = pd.to_datetime(
+        pivots[date_col]
+    )
+
+    pivots = (
+        pivots
+        .sort_values(date_col)
+        .reset_index(drop=True)
+    )
+
+    results = []
+
+    # --------------------------------------------------------
+    # Examine consecutive structural LOW -> HIGH pivots
+    # --------------------------------------------------------
+
+    for i in range(len(pivots) - 1):
+
+        start = pivots.iloc[i]
+        end = pivots.iloc[i + 1]
+
+        start_type = str(
+            start[type_col]
+        ).upper()
+
+        end_type = str(
+            end[type_col]
+        ).upper()
+
+        # Pole must begin at a structural LOW
+        # and finish at a structural HIGH.
+        if start_type != "LOW":
+            continue
+
+        if end_type != "HIGH":
+            continue
+
+        start_date = pd.Timestamp(
+            start[date_col]
+        )
+
+        end_date = pd.Timestamp(
+            end[date_col]
+        )
+
+        start_price = float(
+            start[price_col]
+        )
+
+        end_price = float(
+            end[price_col]
+        )
+
+        if start_price <= 0:
+            continue
+
+        duration = (
+            end_date - start_date
+        ).days
+
+        # Convert calendar duration approximately
+        # into a session count using actual trading data.
+        pole_data = data.loc[
+            (data.index >= start_date) &
+            (data.index <= end_date)
+        ].copy()
+
+        sessions = len(pole_data)
+
+        if sessions < min_sessions:
+            continue
+
+        if sessions > max_sessions:
+            continue
+
+        advance_pct = (
+            (end_price - start_price)
+            / start_price
+        ) * 100
+
+        if advance_pct < min_advance_pct:
+            continue
+
+        # ----------------------------------------------------
+        # Volume participation
+        # ----------------------------------------------------
+
+        pole_rvol = (
+            pole_data["Relative_Volume"]
+            .replace(
+                [np.inf, -np.inf],
+                np.nan
+            )
+            .mean()
+        )
+
+        if pd.isna(pole_rvol):
+            continue
+
+        if pole_rvol < min_rvol:
+            continue
+
+        # ----------------------------------------------------
+        # Volume trend
+        # ----------------------------------------------------
+
+        midpoint = max(
+            1,
+            len(pole_data) // 2
+        )
+
+        first_half = pole_data.iloc[
+            :midpoint
+        ]
+
+        second_half = pole_data.iloc[
+            midpoint:
+        ]
+
+        first_volume = (
+            first_half["Volume"].mean()
+        )
+
+        second_volume = (
+            second_half["Volume"].mean()
+        )
+
+        if first_volume > 0:
+
+            volume_change_pct = (
+                (second_volume - first_volume)
+                / first_volume
+            ) * 100
+
+        else:
+
+            volume_change_pct = np.nan
+
+        results.append({
+
+            "pole_start_date":
+                start_date,
+
+            "pole_start_price":
+                start_price,
+
+            "pole_end_date":
+                end_date,
+
+            "pole_high_price":
+                end_price,
+
+            "pole_advance_pct":
+                advance_pct,
+
+            "pole_duration_sessions":
+                sessions,
+
+            "pole_duration_calendar_days":
+                duration,
+
+            "pole_relative_volume":
+                pole_rvol,
+
+            "pole_volume_change_pct":
+                volume_change_pct
+        })
+
+    if not results:
+        return pd.DataFrame()
+
+    result = pd.DataFrame(results)
+
+    # --------------------------------------------------------
+    # Sort strongest structural poles first
+    # --------------------------------------------------------
+
+    result = (
+        result
+        .sort_values(
+            [
+                "pole_advance_pct",
+                "pole_relative_volume"
+            ],
+            ascending=False
+        )
+        .reset_index(drop=True)
+    )
+
+    return result
+
+def detect_production_bullish_flags(df, poles):
+    """
+    Production Bullish Flag structure detection.
+
+    Uses the validated structural bullish pole engine.
+
+    This cell:
+    - detects post-pole flag behaviour
+    - measures retracement
+    - measures persistence below 50% pole midpoint
+    - records EMA behaviour
+    - records flag range
+    - detects breakout above pole high
+    - identifies current structural status
+
+    This cell does NOT:
+    - use 25% pole formation
+    - create new indicators
+    - calculate the final score
+    """
 
     results = []
 
@@ -631,6 +720,10 @@ def detect_production_bullish_flags(
     data = df.copy()
 
     for _, pole in poles.iterrows():
+
+        # ----------------------------------------------------
+        # STRUCTURAL POLE INFORMATION
+        # ----------------------------------------------------
 
         pole_start_date = pd.to_datetime(
             pole["pole_start_date"]
@@ -679,13 +772,13 @@ def detect_production_bullish_flags(
         # ----------------------------------------------------
 
         pole_midpoint = (
-            pole_start_price
-            + pole_high_price
+            pole_start_price +
+            pole_high_price
         ) / 2.0
 
         pole_range = (
-            pole_high_price
-            - pole_start_price
+            pole_high_price -
+            pole_start_price
         )
 
         if pole_range <= 0:
@@ -693,12 +786,12 @@ def detect_production_bullish_flags(
 
         # ----------------------------------------------------
         # BREAKOUT DETECTION
+        #
         # Daily CLOSE at or above pole high
         # ----------------------------------------------------
 
         breakout_mask = (
-            post_pole["Close"]
-            >= pole_high_price
+            post_pole["Close"] >= pole_high_price
         )
 
         breakout_date = None
@@ -706,11 +799,9 @@ def detect_production_bullish_flags(
 
         if breakout_mask.any():
 
-            breakout_date = (
-                breakout_mask[
-                    breakout_mask
-                ].index[0]
-            )
+            breakout_date = breakout_mask[
+                breakout_mask
+            ].index[0]
 
             breakout_price = float(
                 post_pole.loc[
@@ -719,6 +810,7 @@ def detect_production_bullish_flags(
                 ]
             )
 
+            # Flag data ends before breakout candle
             flag_data = post_pole.loc[
                 post_pole.index < breakout_date
             ].copy()
@@ -729,11 +821,9 @@ def detect_production_bullish_flags(
 
         if flag_data.empty:
 
-            flag_data = (
-                post_pole
-                .iloc[:1]
-                .copy()
-            )
+            # No completed flag session before
+            # immediate breakout
+            flag_data = post_pole.iloc[:1].copy()
 
         # ----------------------------------------------------
         # FLAG HIGH / LOW
@@ -747,23 +837,20 @@ def detect_production_bullish_flags(
             flag_data["Low"].min()
         )
 
-        flag_high_date = (
-            flag_data["High"].idxmax()
-        )
+        flag_high_date = flag_data[
+            "High"
+        ].idxmax()
 
-        flag_low_date = (
-            flag_data["Low"].idxmin()
-        )
+        flag_low_date = flag_data[
+            "Low"
+        ].idxmin()
 
         # ----------------------------------------------------
         # LOW RETRACEMENT
         # ----------------------------------------------------
 
         low_retracement_pct = (
-            (
-                pole_high_price
-                - flag_low
-            )
+            (pole_high_price - flag_low)
             / pole_range
         ) * 100
 
@@ -775,15 +862,12 @@ def detect_production_bullish_flags(
             flag_data["Close"].min()
         )
 
-        lowest_close_date = (
-            flag_data["Close"].idxmin()
-        )
+        lowest_close_date = flag_data[
+            "Close"
+        ].idxmin()
 
         close_retracement_pct = (
-            (
-                pole_high_price
-                - lowest_close
-            )
+            (pole_high_price - lowest_close)
             / pole_range
         ) * 100
 
@@ -792,8 +876,7 @@ def detect_production_bullish_flags(
         # ----------------------------------------------------
 
         below_50 = (
-            flag_data["Close"]
-            < pole_midpoint
+            flag_data["Close"] < pole_midpoint
         )
 
         closes_below_50 = int(
@@ -846,10 +929,7 @@ def detect_production_bullish_flags(
         # ----------------------------------------------------
 
         flag_range_pct = (
-            (
-                flag_high
-                - flag_low
-            )
+            (flag_high - flag_low)
             / flag_high
         ) * 100
 
@@ -873,10 +953,7 @@ def detect_production_bullish_flags(
 
             status = "BREAKOUT"
 
-        elif (
-            len(post_pole_full)
-            >= MAX_FLAG_SESSIONS
-        ):
+        elif len(post_pole_full) >= MAX_FLAG_SESSIONS:
 
             status = "STALE"
 
@@ -971,11 +1048,6 @@ def detect_production_bullish_flags(
 
     return pd.DataFrame(results)
 
-
-# ============================================================
-# FLAG STRUCTURE SCORE
-# ============================================================
-
 def score_flag_structure(row):
 
     score = 0
@@ -984,76 +1056,57 @@ def score_flag_structure(row):
     # CLOSING RETRACEMENT - 15 POINTS
     # --------------------------------------------------------
 
-    retracement = (
-        row["close_retracement_pct"]
-    )
+    retracement = row["close_retracement_pct"]
 
     if pd.isna(retracement):
-
         retracement_score = 0
 
     elif retracement > 100:
-
         retracement_score = 0
 
     elif retracement <= 25:
-
         retracement_score = 15
 
     elif retracement <= 38.2:
-
         retracement_score = 14
 
     elif retracement <= 50:
-
         retracement_score = 12
 
     elif retracement <= 61.8:
-
         retracement_score = 10
 
     elif retracement <= 78.6:
-
         retracement_score = 8
 
     else:
-
         retracement_score = 4
 
     # --------------------------------------------------------
     # PERSISTENCE BELOW 50% - 10 POINTS
     # --------------------------------------------------------
 
-    persistence = (
-        row["closes_below_50"]
-    )
+    persistence = row["closes_below_50"]
 
     if pd.isna(persistence):
-
         persistence_score = 0
 
     elif persistence == 0:
-
         persistence_score = 10
 
     elif persistence <= 2:
-
         persistence_score = 9
 
     elif persistence <= 5:
-
         persistence_score = 8
 
     elif persistence <= 10:
-
         persistence_score = 6
 
     elif persistence <= 20:
-
         persistence_score = 3
 
     else:
-
         persistence_score = 0
 
     # --------------------------------------------------------
@@ -1061,8 +1114,8 @@ def score_flag_structure(row):
     # --------------------------------------------------------
 
     score = (
-        retracement_score
-        + persistence_score
+        retracement_score +
+        persistence_score
     )
 
     # --------------------------------------------------------
@@ -1070,32 +1123,15 @@ def score_flag_structure(row):
     # --------------------------------------------------------
 
     if retracement > 100:
-
         interpretation = "INVALIDATED"
-
     elif score >= 21:
-
-        interpretation = (
-            "STRONG FLAG STRUCTURE"
-        )
-
+        interpretation = "STRONG FLAG STRUCTURE"
     elif score >= 16:
-
-        interpretation = (
-            "GOOD FLAG STRUCTURE"
-        )
-
+        interpretation = "GOOD FLAG STRUCTURE"
     elif score >= 9:
-
-        interpretation = (
-            "WATCH FLAG STRUCTURE"
-        )
-
+        interpretation = "WATCH FLAG STRUCTURE"
     else:
-
-        interpretation = (
-            "WEAK FLAG STRUCTURE"
-        )
+        interpretation = "WEAK FLAG STRUCTURE"
 
     return pd.Series({
 
@@ -1111,14 +1147,3 @@ def score_flag_structure(row):
         "Flag_Structure_Interpretation":
             interpretation
     })
-
-
-# ============================================================
-# ENGINE IDENTIFICATION
-# ============================================================
-
-AURORA_RELEASE = "3.1"
-AURORA_ARCHITECTURE = (
-    "Frozen 80-point scoring model"
-)
-AURORA_UNIVERSE_NAME = "NIFTY 50"

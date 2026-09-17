@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Aurora 3.1 | Bullish Flag Scanner</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4f7fb;
+      color: #172033;
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    /* HEADER */
+
+    .header {
+      background: #ffffff;
+      border: 1px solid #dfe5ee;
+      border-radius: 14px;
+      padding: 24px 28px;
+      margin-bottom: 22px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+    }
+
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .title {
+      font-size: 28px;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      margin-top: 5px;
+      color: #667085;
+      font-size: 14px;
+    }
+
+    .release {
+      display: inline-block;
+      padding: 7px 12px;
+      border-radius: 20px;
+      background: #eef2ff;
+      color: #3448a5;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .scan-time {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #667085;
+    }
+
+    .scan-time strong {
+      color: #172033;
+    }
+
+    /* CARDS */
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 22px;
+    }
+
+    .card {
+      background: #ffffff;
+      border: 1px solid #dfe5ee;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.04);
+    }
+
+    .card-label {
+      color: #667085;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    .card-value {
+      font-size: 30px;
+      font-weight: 700;
+    }
+
+    /* MAIN PANEL */
+
+    .panel {
+      background: #ffffff;
+      border: 1px solid #dfe5ee;
+      border-radius: 14px;
+      box-shadow: 0 3px 12px rgba(0,0,0,0.05);
+      overflow: hidden;
+    }
+
+    .panel-header {
+      padding: 20px 24px;
+      border-bottom: 1px solid #e5e9f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .panel-title {
+      font-size: 19px;
+      font-weight: 700;
+    }
+
+    .panel-subtitle {
+      color: #667085;
+      font-size: 13px;
+      margin-top: 3px;
+    }
+
+    .refresh-btn {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      padding: 8px 14px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .refresh-btn:hover {
+      background: #f4f7fb;
+    }
+
+    /* TABLE */
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 850px;
+    }
+
+    th {
+      background: #f8fafc;
+      color: #475467;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      padding: 13px 15px;
+      text-align: left;
+      border-bottom: 1px solid #e5e9f0;
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 15px;
+      border-bottom: 1px solid #edf0f5;
+      font-size: 14px;
+      white-space: nowrap;
+    }
+
+    tbody tr:hover {
+      background: #fafcff;
+    }
+
+    .symbol {
+      font-weight: 700;
+      font-size: 15px;
+    }
+
+    .score {
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .status {
+      display: inline-block;
+      padding: 5px 10px;
+      border-radius: 15px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 0.3px;
+    }
+
+    .strong {
+      background: #e7f6ec;
+      color: #18733c;
+    }
+
+    .good {
+      background: #eef4ff;
+      color: #315bb5;
+    }
+
+    .watch {
+      background: #fff5df;
+      color: #9a6500;
+    }
+
+    /* EMPTY / ERROR */
+
+    .message {
+      padding: 45px 20px;
+      text-align: center;
+      color: #667085;
+    }
+
+    .error {
+      color: #b42318;
+    }
+
+    /* FOOTER */
+
+    .footer {
+      margin-top: 18px;
+      text-align: center;
+      color: #98a2b3;
+      font-size: 12px;
+    }
+
+    /* RESPONSIVE */
+
+    @media (max-width: 1000px) {
+      .cards {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        padding: 14px;
+      }
+
+      .cards {
+        grid-template-columns: 1fr;
+      }
+
+      .title {
+        font-size: 23px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <!-- HEADER -->
+
+  <div class="header">
+
+    <div class="header-top">
+
+      <div>
+        <div class="title">
+          AURORA 3.1
+        </div>
+
+        <div class="subtitle">
+          NIFTY 50 Bullish Flag Scanner
+        </div>
+      </div>
+
+      <div class="release">
+        PRODUCTION 3.1
+      </div>
+
+    </div>
+
+    <div class="scan-time">
+      Last Scan:
+      <strong id="lastScan">Loading...</strong>
+    </div>
+
+  </div>
+
+
+  <!-- SUMMARY CARDS -->
+
+  <div class="cards">
+
+    <div class="card">
+      <div class="card-label">
+        Production Structures
+      </div>
+
+      <div class="card-value" id="structures">
+        —
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-label">
+        Active Flags
+      </div>
+
+      <div class="card-value" id="activeFlags">
+        —
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-label">
+        Breakouts
+      </div>
+
+      <div class="card-value" id="breakouts">
+        —
+      </div>
+    </div>
+
+
+    <div class="card">
+      <div class="card-label">
+        Highest Structure Score
+      </div>
+
+      <div class="card-value" id="highestScore">
+        —
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ACTIVE FLAGS -->
+
+  <div class="panel">
+
+    <div class="panel-header">
+
+      <div>
+        <div class="panel-title">
+          Current Active Bullish Flags
+        </div>
+
+        <div class="panel-subtitle">
+          Production structures currently classified as ACTIVE FLAG
+        </div>
+      </div>
+
+      <button
+        class="refresh-btn"
+        onclick="loadDashboard()">
+        Refresh
+      </button>
+
+    </div>
+
+
+    <div class="table-wrap">
+
+      <table>
+
+        <thead>
+
+          <tr>
+            <th>Symbol</th>
+            <th>Pole Advance</th>
+            <th>Flag Age</th>
+            <th>Retracement</th>
+            <th>Below 50%</th>
+            <th>Structure Score</th>
+            <th>Status</th>
+          </tr>
+
+        </thead>
+
+        <tbody id="flagTable">
+
+          <tr>
+            <td colspan="7">
+              <div class="message">
+                Loading Aurora scan...
+              </div>
+            </td>
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+  <div class="footer">
+    Aurora 3.1 Production Bullish Flag Scanner
+  </div>
+
+</div>
+
+
+<script>
+
+async function loadDashboard() {
+
+  const table = document.getElementById("flagTable");
+
+  table.innerHTML = `
+    <tr>
+      <td colspan="7">
+        <div class="message">
+          Loading latest scan...
+        </div>
+      </td>
+    </tr>
+  `;
+
+  try {
+
+    /*
+     * Load the latest active flag data
+     */
+
+    const flagsResponse =
+      await fetch("data/active_flags.json?t=" + Date.now());
+
+    if (!flagsResponse.ok) {
+      throw new Error("active_flags.json could not be loaded");
+    }
+
+    const flagsData =
+      await flagsResponse.json();
+
+
+    /*
+     * Load the latest scan summary
+     */
+
+    const summaryResponse =
+      await fetch("data/scan_summary.json?t=" + Date.now());
+
+    if (!summaryResponse.ok) {
+      throw new Error("scan_summary.json could not be loaded");
+    }
+
+    const summary =
+      await summaryResponse.json();
+
+
+    /*
+     * Update summary cards
+     */
+
+    document.getElementById("structures").textContent =
+      summary.production_structures ??
+      summary.total_production_structures ??
+      summary.structures ??
+      "—";
+
+    document.getElementById("activeFlags").textContent =
+      summary.active_flags ??
+      flagsData.count ??
+      (flagsData.active_flags || []).length;
+
+    document.getElementById("breakouts").textContent =
+      summary.breakouts ??
+      summary.current_breakouts ??
+      "—";
+
+    document.getElementById("highestScore").textContent =
+      summary.highest_structure_score ??
+      "—";
+
+
+    /*
+     * Last scan time
+     */
+
+    if (flagsData.generated_at) {
+
+      const date =
+        new Date(flagsData.generated_at);
+
+      document.getElementById("lastScan").textContent =
+        date.toLocaleString("en-IN", {
+          day: "2-digit",
+          month: "short",
+          year: "numeric",
+          hour: "2-digit",
+          minute: "2-digit",
+          second: "2-digit",
+          hour12: false
+        });
+
+    } else {
+
+      document.getElementById("lastScan").textContent =
+        "Not available";
+
+    }
+
+
+    /*
+     * Get active flags
+     */
+
+    let flags =
+      flagsData.active_flags || [];
+
+
+    /*
+     * Sort by Structure Score — highest first
+     */
+
+    flags.sort(function(a, b) {
+
+      return (
+        Number(b.Flag_Structure_Score || 0) -
+        Number(a.Flag_Structure_Score || 0)
+      );
+
+    });
+
+
+    /*
+     * Build table
+     */
+
+    if (flags.length === 0) {
+
+      table.innerHTML = `
+        <tr>
+          <td colspan="7">
+            <div class="message">
+              No active bullish flags detected.
+            </div>
+          </td>
+        </tr>
+      `;
+
+      return;
+    }
+
+
+    table.innerHTML = flags.map(function(flag) {
+
+      const statusText =
+        flag.Flag_Structure_Interpretation ||
+        flag.status ||
+        "—";
+
+
+      let statusClass = "watch";
+
+      if (
+        statusText.toUpperCase().includes("STRONG")
+      ) {
+        statusClass = "strong";
+      }
+      else if (
+        statusText.toUpperCase().includes("GOOD")
+      ) {
+        statusClass = "good";
+      }
+
+
+      return `
+
+        <tr>
+
+          <td>
+            <span class="symbol">
+              ${flag.Symbol || "—"}
+            </span>
+          </td>
+
+          <td>
+            ${formatNumber(flag.pole_advance_pct)}%
+          </td>
+
+          <td>
+            ${flag.flag_duration_sessions ?? "—"}
+          </td>
+
+          <td>
+            ${formatNumber(flag.close_retracement_pct)}%
+          </td>
+
+          <td>
+            ${flag.closes_below_50 ?? "—"}
+          </td>
+
+          <td>
+            <span class="score">
+              ${flag.Flag_Structure_Score ?? "—"}
+            </span>
+          </td>
+
+          <td>
+            <span class="status ${statusClass}">
+              ${cleanStatus(statusText)}
+            </span>
+          </td>
+
+        </tr>
+
+      `;
+
+    }).join("");
+
+
+  }
+
+  catch (error) {
+
+    console.error(error);
+
+    table.innerHTML = `
+      <tr>
+        <td colspan="7">
+          <div class="message error">
+            Unable to load the latest Aurora scan.
+            <br><br>
+            ${error.message}
+          </div>
+        </td>
+      </tr>
+    `;
+
+  }
+
+}
+
+
+/*
+ * Number formatting
+ */
+
+function formatNumber(value) {
+
+  if (
+    value === null ||
+    value === undefined ||
+    value === ""
+  ) {
+    return "—";
+  }
+
+  const number =
+    Number(value);
+
+  if (Number.isNaN(number)) {
+    return "—";
+  }
+
+  return number.toFixed(2);
+
+}
+
+
+/*
+ * Make status display concise
+ */
+
+function cleanStatus(status) {
+
+  return status
+    .replace(" FLAG STRUCTURE", "")
+    .replace(" FLAG", "");
+
+}
+
+
+/*
+ * Initial dashboard load
+ */
+
+loadDashboard();
+
+
+/*
+ * Automatic browser refresh every 5 minutes.
+ *
+ * This only refreshes the webpage.
+ * The actual Aurora scan will be controlled
+ * separately by GitHub Actions.
+ */
+
+setInterval(
+  loadDashboard,
+  5 * 60 * 1000
+);
+
+</script>
+
+</body>
+</html>

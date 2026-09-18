@@ -41,7 +41,7 @@ jobs:
           path: |
             data/active_flags.json
             data/scan_summary.json
-             - name: Save scan results to repository
+      - name: Save scan results to repository
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"

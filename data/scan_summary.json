@@ -3,7 +3,7 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-09-18T14:50:27+00:00",
+  "generated_at": "2026-09-18T15:26:26+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
@@ -11,7 +11,7 @@
     "active_flags": 7,
     "breakouts": 96,
     "highest_structure_score": 25,
-    "scan_time_seconds": 13.32
+    "scan_time_seconds": 12.93
   },
   "scan_log": [
     {

@@ -3,36 +3,36 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-09-18T15:26:26+00:00",
+  "generated_at": "2026-10-11T06:41:52+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
-    "total_production_structures": 266,
-    "active_flags": 7,
-    "breakouts": 96,
+    "total_production_structures": 262,
+    "active_flags": 5,
+    "breakouts": 90,
     "highest_structure_score": 25,
-    "scan_time_seconds": 12.93
+    "scan_time_seconds": 14.26
   },
   "scan_log": [
     {
       "Symbol": "HDFCBANK",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 28,
-      "Poles": 5,
-      "Flags": 5,
+      "Poles": 8,
+      "Flags": 8,
       "Status": "OK"
     },
     {
       "Symbol": "ICICIBANK",
-      "Rows": 501,
-      "Pivots": 30,
-      "Poles": 4,
-      "Flags": 4,
+      "Rows": 497,
+      "Pivots": 29,
+      "Poles": 3,
+      "Flags": 3,
       "Status": "OK"
     },
     {
       "Symbol": "RELIANCE",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 30,
       "Poles": 5,
       "Flags": 5,
@@ -40,23 +40,23 @@
     },
     {
       "Symbol": "BHARTIARTL",
-      "Rows": 501,
-      "Pivots": 29,
+      "Rows": 497,
+      "Pivots": 28,
       "Poles": 5,
       "Flags": 5,
       "Status": "OK"
     },
     {
       "Symbol": "LT",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 26,
-      "Poles": 6,
-      "Flags": 6,
+      "Poles": 5,
+      "Flags": 5,
       "Status": "OK"
     },
     {
       "Symbol": "SBIN",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 26,
       "Poles": 4,
       "Flags": 4,
@@ -64,63 +64,63 @@
     },
     {
       "Symbol": "INFY",
-      "Rows": 501,
-      "Pivots": 27,
+      "Rows": 497,
+      "Pivots": 26,
       "Poles": 6,
       "Flags": 6,
       "Status": "OK"
     },
     {
       "Symbol": "AXISBANK",
-      "Rows": 501,
-      "Pivots": 24,
+      "Rows": 497,
+      "Pivots": 23,
+      "Poles": 3,
+      "Flags": 3,
+      "Status": "OK"
+    },
+    {
+      "Symbol": "KOTAKBANK",
+      "Rows": 497,
+      "Pivots": 26,
       "Poles": 4,
       "Flags": 4,
       "Status": "OK"
     },
     {
-      "Symbol": "KOTAKBANK",
-      "Rows": 501,
-      "Pivots": 29,
-      "Poles": 5,
-      "Flags": 5,
-      "Status": "OK"
-    },
-    {
       "Symbol": "M&M",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 34,
-      "Poles": 11,
-      "Flags": 11,
-      "Status": "OK"
-    },
-    {
-      "Symbol": "ADANIENT",
-      "Rows": 501,
-      "Pivots": 28,
       "Poles": 10,
       "Flags": 10,
       "Status": "OK"
     },
     {
+      "Symbol": "ADANIENT",
+      "Rows": 497,
+      "Pivots": 27,
+      "Poles": 9,
+      "Flags": 9,
+      "Status": "OK"
+    },
+    {
       "Symbol": "ADANIPORTS",
-      "Rows": 501,
-      "Pivots": 17,
-      "Poles": 2,
-      "Flags": 2,
+      "Rows": 497,
+      "Pivots": 18,
+      "Poles": 3,
+      "Flags": 3,
       "Status": "OK"
     },
     {
       "Symbol": "APOLLOHOSP",
-      "Rows": 501,
-      "Pivots": 23,
+      "Rows": 497,
+      "Pivots": 24,
       "Poles": 7,
       "Flags": 7,
       "Status": "OK"
     },
     {
       "Symbol": "ASIANPAINT",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 20,
       "Poles": 5,
       "Flags": 5,
@@ -128,7 +128,7 @@
     },
     {
       "Symbol": "BAJAJ-AUTO",
-      "Rows": 500,
+      "Rows": 497,
       "Pivots": 28,
       "Poles": 7,
       "Flags": 7,
@@ -136,7 +136,7 @@
     },
     {
       "Symbol": "BAJFINANCE",
-      "Rows": 500,
+      "Rows": 497,
       "Pivots": 26,
       "Poles": 5,
       "Flags": 5,
@@ -144,71 +144,71 @@
     },
     {
       "Symbol": "BAJAJFINSV",
-      "Rows": 500,
-      "Pivots": 34,
-      "Poles": 7,
-      "Flags": 7,
-      "Status": "OK"
-    },
-    {
-      "Symbol": "BEL",
-      "Rows": 501,
-      "Pivots": 22,
-      "Poles": 7,
-      "Flags": 7,
-      "Status": "OK"
-    },
-    {
-      "Symbol": "CIPLA",
-      "Rows": 500,
-      "Pivots": 33,
-      "Poles": 7,
-      "Flags": 7,
-      "Status": "OK"
-    },
-    {
-      "Symbol": "COALINDIA",
-      "Rows": 501,
-      "Pivots": 25,
+      "Rows": 497,
+      "Pivots": 32,
       "Poles": 6,
       "Flags": 6,
       "Status": "OK"
     },
     {
-      "Symbol": "DRREDDY",
-      "Rows": 500,
+      "Symbol": "BEL",
+      "Rows": 497,
+      "Pivots": 23,
+      "Poles": 6,
+      "Flags": 6,
+      "Status": "OK"
+    },
+    {
+      "Symbol": "CIPLA",
+      "Rows": 497,
+      "Pivots": 33,
+      "Poles": 6,
+      "Flags": 6,
+      "Status": "OK"
+    },
+    {
+      "Symbol": "COALINDIA",
+      "Rows": 497,
       "Pivots": 27,
       "Poles": 7,
       "Flags": 7,
       "Status": "OK"
     },
     {
+      "Symbol": "DRREDDY",
+      "Rows": 497,
+      "Pivots": 27,
+      "Poles": 6,
+      "Flags": 6,
+      "Status": "OK"
+    },
+    {
       "Symbol": "EICHERMOT",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 26,
-      "Poles": 8,
-      "Flags": 8,
+      "Poles": 7,
+      "Flags": 7,
       "Status": "OK"
     },
     {
       "Symbol": "ETERNAL",
-      "Rows": 501,
-      "Pivots": 26,
+      "Rows": 497,
+      "Pivots": 28,
       "Poles": 7,
       "Flags": 7,
       "Status": "OK"
     },
     {
       "Symbol": "GRASIM",
-      "Rows": 500,
-      "Pivots": 27,
+      "Rows": 497,
+      "Pivots": 26,
       "Poles": 7,
       "Flags": 7,
       "Status": "OK"
     },
     {
       "Symbol": "HCLTECH",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 27,
       "Poles": 5,
       "Flags": 5,
@@ -216,23 +216,23 @@
     },
     {
       "Symbol": "HDFCLIFE",
-      "Rows": 501,
-      "Pivots": 27,
-      "Poles": 4,
-      "Flags": 4,
+      "Rows": 497,
+      "Pivots": 28,
+      "Poles": 5,
+      "Flags": 5,
       "Status": "OK"
     },
     {
       "Symbol": "HINDALCO",
-      "Rows": 500,
-      "Pivots": 25,
+      "Rows": 497,
+      "Pivots": 24,
       "Poles": 2,
       "Flags": 2,
       "Status": "OK"
     },
     {
       "Symbol": "HINDUNILVR",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 24,
       "Poles": 6,
       "Flags": 6,
@@ -240,31 +240,31 @@
     },
     {
       "Symbol": "ITC",
-      "Rows": 501,
-      "Pivots": 25,
+      "Rows": 497,
+      "Pivots": 26,
       "Poles": 2,
       "Flags": 2,
       "Status": "OK"
     },
     {
       "Symbol": "INDIGO",
-      "Rows": 500,
-      "Pivots": 32,
-      "Poles": 6,
-      "Flags": 6,
+      "Rows": 497,
+      "Pivots": 33,
+      "Poles": 7,
+      "Flags": 7,
       "Status": "OK"
     },
     {
       "Symbol": "JSWSTEEL",
-      "Rows": 500,
-      "Pivots": 31,
-      "Poles": 8,
-      "Flags": 8,
+      "Rows": 497,
+      "Pivots": 29,
+      "Poles": 7,
+      "Flags": 7,
       "Status": "OK"
     },
     {
       "Symbol": "JIOFIN",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 30,
       "Poles": 8,
       "Flags": 8,
@@ -272,7 +272,7 @@
     },
     {
       "Symbol": "MARUTI",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 24,
       "Poles": 6,
       "Flags": 6,
@@ -280,15 +280,15 @@
     },
     {
       "Symbol": "MAXHEALTH",
-      "Rows": 501,
-      "Pivots": 22,
-      "Poles": 3,
-      "Flags": 3,
+      "Rows": 497,
+      "Pivots": 24,
+      "Poles": 4,
+      "Flags": 4,
       "Status": "OK"
     },
     {
       "Symbol": "NTPC",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 25,
       "Poles": 3,
       "Flags": 3,
@@ -296,7 +296,7 @@
     },
     {
       "Symbol": "NESTLEIND",
-      "Rows": 500,
+      "Rows": 497,
       "Pivots": 30,
       "Poles": 7,
       "Flags": 7,
@@ -304,71 +304,71 @@
     },
     {
       "Symbol": "ONGC",
-      "Rows": 501,
-      "Pivots": 25,
-      "Poles": 6,
-      "Flags": 6,
-      "Status": "OK"
-    },
-    {
-      "Symbol": "POWERGRID",
-      "Rows": 500,
-      "Pivots": 27,
-      "Poles": 4,
-      "Flags": 4,
-      "Status": "OK"
-    },
-    {
-      "Symbol": "SBILIFE",
-      "Rows": 501,
-      "Pivots": 28,
-      "Poles": 2,
-      "Flags": 2,
-      "Status": "OK"
-    },
-    {
-      "Symbol": "SHRIRAMFIN",
-      "Rows": 501,
-      "Pivots": 26,
-      "Poles": 6,
-      "Flags": 6,
-      "Status": "OK"
-    },
-    {
-      "Symbol": "SUNPHARMA",
-      "Rows": 501,
-      "Pivots": 28,
-      "Poles": 3,
-      "Flags": 3,
-      "Status": "OK"
-    },
-    {
-      "Symbol": "TCS",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 24,
       "Poles": 5,
       "Flags": 5,
       "Status": "OK"
     },
     {
-      "Symbol": "TATACONSUM",
-      "Rows": 501,
+      "Symbol": "POWERGRID",
+      "Rows": 497,
+      "Pivots": 28,
+      "Poles": 4,
+      "Flags": 4,
+      "Status": "OK"
+    },
+    {
+      "Symbol": "SBILIFE",
+      "Rows": 497,
+      "Pivots": 30,
+      "Poles": 3,
+      "Flags": 3,
+      "Status": "OK"
+    },
+    {
+      "Symbol": "SHRIRAMFIN",
+      "Rows": 497,
+      "Pivots": 26,
+      "Poles": 7,
+      "Flags": 7,
+      "Status": "OK"
+    },
+    {
+      "Symbol": "SUNPHARMA",
+      "Rows": 497,
+      "Pivots": 29,
+      "Poles": 3,
+      "Flags": 3,
+      "Status": "OK"
+    },
+    {
+      "Symbol": "TCS",
+      "Rows": 497,
       "Pivots": 24,
-      "Poles": 6,
-      "Flags": 6,
+      "Poles": 4,
+      "Flags": 4,
+      "Status": "OK"
+    },
+    {
+      "Symbol": "TATACONSUM",
+      "Rows": 497,
+      "Pivots": 22,
+      "Poles": 5,
+      "Flags": 5,
       "Status": "OK"
     },
     {
       "Symbol": "TATASTEEL",
-      "Rows": 501,
-      "Pivots": 23,
-      "Poles": 1,
-      "Flags": 1,
+      "Rows": 497,
+      "Pivots": 24,
+      "Poles": 2,
+      "Flags": 2,
       "Status": "OK"
     },
     {
       "Symbol": "TECHM",
-      "Rows": 499,
+      "Rows": 497,
       "Pivots": 25,
       "Poles": 5,
       "Flags": 5,
@@ -376,7 +376,7 @@
     },
     {
       "Symbol": "TITAN",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 20,
       "Poles": 7,
       "Flags": 7,
@@ -384,23 +384,23 @@
     },
     {
       "Symbol": "TRENT",
-      "Rows": 501,
-      "Pivots": 25,
+      "Rows": 497,
+      "Pivots": 24,
       "Poles": 8,
       "Flags": 8,
       "Status": "OK"
     },
     {
       "Symbol": "ULTRACEMCO",
-      "Rows": 501,
-      "Pivots": 20,
+      "Rows": 497,
+      "Pivots": 21,
       "Poles": 3,
       "Flags": 3,
       "Status": "OK"
     },
     {
       "Symbol": "WIPRO",
-      "Rows": 501,
+      "Rows": 497,
       "Pivots": 20,
       "Poles": 3,
       "Flags": 3,

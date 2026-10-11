@@ -2,7 +2,7 @@ name: Aurora 3.1 - Test Scan
 
 on:
   schedule:
-      - cron: '30 11 * * 1-5'
+    - cron: '30 11 * * 1-5'
   workflow_dispatch:
 
 permissions:
@@ -43,10 +43,13 @@ jobs:
           path: |
             data/active_flags.json
             data/scan_summary.json
+
       - name: Save scan results to repository
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add data/active_flags.json data/scan_summary.json
-          git diff --cached --quiet || git commit -m "Update Aurora 3.1 scan results"
+          if ! git diff --cached --quiet; then
+            git commit -m "Update Aurora 3.1 scan results"
+          fi
           git push

@@ -1,6 +1,8 @@
 name: Aurora 3.1 - Test Scan
 
 on:
+ schedule:
+    - cron: "30 11 * * 1-5"
   workflow_dispatch:
 
 permissions:

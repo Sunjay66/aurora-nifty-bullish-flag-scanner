@@ -3,15 +3,15 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-10-14T15:55:24+00:00",
+  "generated_at": "2026-10-15T15:41:44+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
-    "total_production_structures": 259,
+    "total_production_structures": 258,
     "active_flags": 5,
     "breakouts": 87,
     "highest_structure_score": 25,
-    "scan_time_seconds": 14.95
+    "scan_time_seconds": 12.28
   },
   "scan_log": [
     {
@@ -113,9 +113,9 @@
     {
       "Symbol": "APOLLOHOSP",
       "Rows": 497,
-      "Pivots": 24,
-      "Poles": 7,
-      "Flags": 7,
+      "Pivots": 23,
+      "Poles": 6,
+      "Flags": 6,
       "Status": "OK"
     },
     {
@@ -169,7 +169,7 @@
     {
       "Symbol": "COALINDIA",
       "Rows": 497,
-      "Pivots": 27,
+      "Pivots": 28,
       "Poles": 7,
       "Flags": 7,
       "Status": "OK"
@@ -217,7 +217,7 @@
     {
       "Symbol": "HDFCLIFE",
       "Rows": 497,
-      "Pivots": 28,
+      "Pivots": 29,
       "Poles": 5,
       "Flags": 5,
       "Status": "OK"
@@ -257,7 +257,7 @@
     {
       "Symbol": "JSWSTEEL",
       "Rows": 497,
-      "Pivots": 29,
+      "Pivots": 28,
       "Poles": 6,
       "Flags": 6,
       "Status": "OK"

@@ -3,15 +3,15 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-10-15T15:41:44+00:00",
+  "generated_at": "2026-10-16T15:27:26+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
-    "total_production_structures": 258,
+    "total_production_structures": 259,
     "active_flags": 5,
-    "breakouts": 87,
+    "breakouts": 88,
     "highest_structure_score": 25,
-    "scan_time_seconds": 12.28
+    "scan_time_seconds": 16.22
   },
   "scan_log": [
     {
@@ -25,7 +25,7 @@
     {
       "Symbol": "ICICIBANK",
       "Rows": 497,
-      "Pivots": 30,
+      "Pivots": 29,
       "Poles": 3,
       "Flags": 3,
       "Status": "OK"
@@ -41,7 +41,7 @@
     {
       "Symbol": "BHARTIARTL",
       "Rows": 497,
-      "Pivots": 28,
+      "Pivots": 29,
       "Poles": 5,
       "Flags": 5,
       "Status": "OK"
@@ -90,8 +90,8 @@
       "Symbol": "M&M",
       "Rows": 497,
       "Pivots": 34,
-      "Poles": 10,
-      "Flags": 10,
+      "Poles": 11,
+      "Flags": 11,
       "Status": "OK"
     },
     {
@@ -137,7 +137,7 @@
     {
       "Symbol": "BAJFINANCE",
       "Rows": 497,
-      "Pivots": 26,
+      "Pivots": 27,
       "Poles": 5,
       "Flags": 5,
       "Status": "OK"
@@ -265,7 +265,7 @@
     {
       "Symbol": "JIOFIN",
       "Rows": 497,
-      "Pivots": 29,
+      "Pivots": 30,
       "Poles": 8,
       "Flags": 8,
       "Status": "OK"
@@ -353,7 +353,7 @@
     {
       "Symbol": "TATACONSUM",
       "Rows": 497,
-      "Pivots": 22,
+      "Pivots": 23,
       "Poles": 5,
       "Flags": 5,
       "Status": "OK"
@@ -385,7 +385,7 @@
     {
       "Symbol": "TRENT",
       "Rows": 497,
-      "Pivots": 24,
+      "Pivots": 25,
       "Poles": 8,
       "Flags": 8,
       "Status": "OK"

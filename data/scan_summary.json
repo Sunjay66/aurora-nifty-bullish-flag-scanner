@@ -3,15 +3,15 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-10-21T16:03:29+00:00",
+  "generated_at": "2026-10-22T15:57:46+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
-    "total_production_structures": 257,
+    "total_production_structures": 254,
     "active_flags": 5,
-    "breakouts": 86,
+    "breakouts": 85,
     "highest_structure_score": 25,
-    "scan_time_seconds": 12.95
+    "scan_time_seconds": 11.63
   },
   "scan_log": [
     {
@@ -65,9 +65,9 @@
     {
       "Symbol": "INFY",
       "Rows": 496,
-      "Pivots": 27,
-      "Poles": 6,
-      "Flags": 6,
+      "Pivots": 26,
+      "Poles": 5,
+      "Flags": 5,
       "Status": "OK"
     },
     {
@@ -185,7 +185,7 @@
     {
       "Symbol": "EICHERMOT",
       "Rows": 496,
-      "Pivots": 25,
+      "Pivots": 24,
       "Poles": 6,
       "Flags": 6,
       "Status": "OK"
@@ -209,9 +209,9 @@
     {
       "Symbol": "HCLTECH",
       "Rows": 496,
-      "Pivots": 27,
-      "Poles": 5,
-      "Flags": 5,
+      "Pivots": 26,
+      "Poles": 4,
+      "Flags": 4,
       "Status": "OK"
     },
     {
@@ -249,7 +249,7 @@
     {
       "Symbol": "INDIGO",
       "Rows": 496,
-      "Pivots": 33,
+      "Pivots": 34,
       "Poles": 7,
       "Flags": 7,
       "Status": "OK"
@@ -345,9 +345,9 @@
     {
       "Symbol": "TCS",
       "Rows": 496,
-      "Pivots": 25,
-      "Poles": 4,
-      "Flags": 4,
+      "Pivots": 24,
+      "Poles": 3,
+      "Flags": 3,
       "Status": "OK"
     },
     {
@@ -401,7 +401,7 @@
     {
       "Symbol": "WIPRO",
       "Rows": 496,
-      "Pivots": 21,
+      "Pivots": 20,
       "Poles": 3,
       "Flags": 3,
       "Status": "OK"

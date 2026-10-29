@@ -3,15 +3,15 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-10-28T17:15:28+00:00",
+  "generated_at": "2026-10-29T17:30:08+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
-    "total_production_structures": 247,
+    "total_production_structures": 248,
     "active_flags": 2,
-    "breakouts": 86,
+    "breakouts": 87,
     "highest_structure_score": 25,
-    "scan_time_seconds": 12.52
+    "scan_time_seconds": 15.72
   },
   "scan_log": [
     {
@@ -202,8 +202,8 @@
       "Symbol": "GRASIM",
       "Rows": 496,
       "Pivots": 26,
-      "Poles": 6,
-      "Flags": 6,
+      "Poles": 7,
+      "Flags": 7,
       "Status": "OK"
     },
     {
@@ -330,8 +330,8 @@
       "Symbol": "SHRIRAMFIN",
       "Rows": 496,
       "Pivots": 26,
-      "Poles": 7,
-      "Flags": 7,
+      "Poles": 6,
+      "Flags": 6,
       "Status": "OK"
     },
     {
@@ -385,9 +385,9 @@
     {
       "Symbol": "TRENT",
       "Rows": 496,
-      "Pivots": 25,
-      "Poles": 8,
-      "Flags": 8,
+      "Pivots": 26,
+      "Poles": 9,
+      "Flags": 9,
       "Status": "OK"
     },
     {

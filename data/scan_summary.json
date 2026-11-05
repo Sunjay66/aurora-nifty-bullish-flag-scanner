@@ -3,7 +3,7 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-11-04T18:46:24+00:00",
+  "generated_at": "2026-11-05T18:54:51+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
@@ -11,7 +11,7 @@
     "active_flags": 2,
     "breakouts": 88,
     "highest_structure_score": 25,
-    "scan_time_seconds": 12.96
+    "scan_time_seconds": 11.7
   },
   "scan_log": [
     {
@@ -113,7 +113,7 @@
     {
       "Symbol": "APOLLOHOSP",
       "Rows": 496,
-      "Pivots": 22,
+      "Pivots": 23,
       "Poles": 6,
       "Flags": 6,
       "Status": "OK"
@@ -201,7 +201,7 @@
     {
       "Symbol": "GRASIM",
       "Rows": 496,
-      "Pivots": 25,
+      "Pivots": 26,
       "Poles": 6,
       "Flags": 6,
       "Status": "OK"
@@ -273,7 +273,7 @@
     {
       "Symbol": "MARUTI",
       "Rows": 496,
-      "Pivots": 24,
+      "Pivots": 25,
       "Poles": 6,
       "Flags": 6,
       "Status": "OK"
@@ -281,7 +281,7 @@
     {
       "Symbol": "MAXHEALTH",
       "Rows": 496,
-      "Pivots": 22,
+      "Pivots": 23,
       "Poles": 3,
       "Flags": 3,
       "Status": "OK"
@@ -306,8 +306,8 @@
       "Symbol": "ONGC",
       "Rows": 496,
       "Pivots": 25,
-      "Poles": 5,
-      "Flags": 5,
+      "Poles": 4,
+      "Flags": 4,
       "Status": "OK"
     },
     {
@@ -338,8 +338,8 @@
       "Symbol": "SUNPHARMA",
       "Rows": 496,
       "Pivots": 29,
-      "Poles": 2,
-      "Flags": 2,
+      "Poles": 3,
+      "Flags": 3,
       "Status": "OK"
     },
     {

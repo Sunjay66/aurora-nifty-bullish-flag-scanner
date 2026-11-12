@@ -3,21 +3,21 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-11-11T18:50:00+00:00",
+  "generated_at": "2026-11-12T19:02:00+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
     "total_production_structures": 242,
-    "active_flags": 2,
-    "breakouts": 88,
+    "active_flags": 1,
+    "breakouts": 89,
     "highest_structure_score": 25,
-    "scan_time_seconds": 9.11
+    "scan_time_seconds": 7.73
   },
   "scan_log": [
     {
       "Symbol": "HDFCBANK",
       "Rows": 495,
-      "Pivots": 27,
+      "Pivots": 28,
       "Poles": 7,
       "Flags": 7,
       "Status": "OK"
@@ -145,7 +145,7 @@
     {
       "Symbol": "BAJAJFINSV",
       "Rows": 495,
-      "Pivots": 31,
+      "Pivots": 32,
       "Poles": 5,
       "Flags": 5,
       "Status": "OK"
@@ -217,7 +217,7 @@
     {
       "Symbol": "HDFCLIFE",
       "Rows": 495,
-      "Pivots": 30,
+      "Pivots": 31,
       "Poles": 5,
       "Flags": 5,
       "Status": "OK"
@@ -297,7 +297,7 @@
     {
       "Symbol": "NESTLEIND",
       "Rows": 495,
-      "Pivots": 29,
+      "Pivots": 30,
       "Poles": 7,
       "Flags": 7,
       "Status": "OK"
@@ -329,7 +329,7 @@
     {
       "Symbol": "SHRIRAMFIN",
       "Rows": 495,
-      "Pivots": 25,
+      "Pivots": 26,
       "Poles": 6,
       "Flags": 6,
       "Status": "OK"

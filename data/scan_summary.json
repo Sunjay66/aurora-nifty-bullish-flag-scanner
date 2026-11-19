@@ -3,7 +3,7 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-11-18T19:29:22+00:00",
+  "generated_at": "2026-11-19T19:34:52+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
@@ -11,7 +11,7 @@
     "active_flags": 1,
     "breakouts": 89,
     "highest_structure_score": 25,
-    "scan_time_seconds": 11.16
+    "scan_time_seconds": 9.03
   },
   "scan_log": [
     {
@@ -161,7 +161,7 @@
     {
       "Symbol": "CIPLA",
       "Rows": 496,
-      "Pivots": 32,
+      "Pivots": 31,
       "Poles": 6,
       "Flags": 6,
       "Status": "OK"
@@ -305,7 +305,7 @@
     {
       "Symbol": "ONGC",
       "Rows": 496,
-      "Pivots": 24,
+      "Pivots": 23,
       "Poles": 4,
       "Flags": 4,
       "Status": "OK"

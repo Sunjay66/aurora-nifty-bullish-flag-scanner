@@ -3,15 +3,15 @@
   "release": "3.1",
   "universe": "NIFTY 50",
   "architecture": "Frozen 80-point scoring model",
-  "generated_at": "2026-11-19T19:34:52+00:00",
+  "generated_at": "2026-11-20T19:12:15+00:00",
   "summary": {
     "stocks_scanned": 49,
     "successful_scans": 49,
-    "total_production_structures": 241,
-    "active_flags": 1,
+    "total_production_structures": 242,
+    "active_flags": 2,
     "breakouts": 89,
     "highest_structure_score": 25,
-    "scan_time_seconds": 9.03
+    "scan_time_seconds": 11.56
   },
   "scan_log": [
     {
@@ -97,7 +97,7 @@
     {
       "Symbol": "ADANIENT",
       "Rows": 496,
-      "Pivots": 25,
+      "Pivots": 26,
       "Poles": 9,
       "Flags": 9,
       "Status": "OK"
@@ -153,7 +153,7 @@
     {
       "Symbol": "BEL",
       "Rows": 496,
-      "Pivots": 20,
+      "Pivots": 19,
       "Poles": 4,
       "Flags": 4,
       "Status": "OK"
@@ -257,15 +257,15 @@
     {
       "Symbol": "JSWSTEEL",
       "Rows": 496,
-      "Pivots": 26,
-      "Poles": 6,
-      "Flags": 6,
+      "Pivots": 27,
+      "Poles": 7,
+      "Flags": 7,
       "Status": "OK"
     },
     {
       "Symbol": "JIOFIN",
       "Rows": 496,
-      "Pivots": 30,
+      "Pivots": 29,
       "Poles": 7,
       "Flags": 7,
       "Status": "OK"
